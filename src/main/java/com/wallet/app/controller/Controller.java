@@ -84,9 +84,11 @@ public class Controller {
 							System.out.println("Enter Amount to be deposited");
 							scan = new Scanner(System.in);
 							Double depositAmount = scan.nextDouble();
-
+							//System.out.println("Before Balance is "+ walletService.showWalletBalance(WalletIdlogin));
+							
 							System.out.println("added funds succesfully and the balance is "
 									+ walletService.addFundsToWallet(WalletIdlogin, depositAmount));
+							
 
 							break;
 						case 3:
@@ -104,6 +106,8 @@ public class Controller {
 
 								System.out.println("Funds transferred succesfully");
 
+								System.out.println("Sender Balance is "+ walletService.showWalletBalance(WalletIdlogin));
+								System.out.println("Reciever Balance is "+ walletService.showWalletBalance(ToWalletId));
 							}
 
 //					else {

@@ -20,11 +20,11 @@ public class WalletDaoImpl implements WalletDao {
 	public WalletDaoImpl() {
 	}
 
-	Connection connection = MySqlUtility.getConnectionToMySQL();
-	/*
-	 * public WalletDaoImpl(Connection connection) { super(); this.connection =
-	 * connection; }
-	 */
+	Connection connection;
+	
+	 public WalletDaoImpl(Connection connection) { super(); this.connection =
+	 connection; }
+	 
 //	WalletDao walletDao = new
 //			 WalletDaoImpl(connection);
 
@@ -42,9 +42,9 @@ public class WalletDaoImpl implements WalletDao {
 		if (count == 1) {
 			System.out.println("Wallet added successfully to DB.");
 		}
-//			else {
-//				throw new WalletException("Wallet is not registered");
-//			}
+		else {
+			throw new WalletException("Wallet is not registered");
+		}
 		return newWallet;
 	}
 
@@ -67,13 +67,14 @@ public class WalletDaoImpl implements WalletDao {
 		}
 	}
 
-	public Wallet updateWallet(Integer id, Double amount) throws WalletException, SQLException {
+	public Wallet updateWallet(Wallet updateWallet) throws WalletException, SQLException {
 		// TODO Auto-generated method stub
-		Wallet updatedWallet = getWalletById(id);
-		String update = "update Wallet_Information set amount=" + amount + "where id=" + id;
+		//Wallet updatedWallet = getWalletById(id);
+		Double updatedBalance=updateWallet.getBalance();
+		String update = "update Wallet_Information set amount=" + updatedBalance + "where id=" + updateWallet.getId();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(update);
-		return getWalletById(id);
+		return updateWallet;
 	}
 
 	public Wallet deleteWalletById(Integer walletID) throws WalletException, SQLException {
