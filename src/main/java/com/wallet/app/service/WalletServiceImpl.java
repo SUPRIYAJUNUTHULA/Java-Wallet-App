@@ -2,6 +2,7 @@ package com.wallet.app.service;
 
 import java.sql.SQLException;
 
+import com.wallet.app.dao.MySqlUtility;
 import com.wallet.app.dao.WalletDao;
 import com.wallet.app.dao.WalletDaoImpl;
 import com.wallet.app.dto.Wallet;
@@ -9,7 +10,7 @@ import com.wallet.app.exception.WalletException;
 
 public class WalletServiceImpl implements WalletService {
 
-	private WalletDao walletRepository = new WalletDaoImpl();
+	private WalletDao walletRepository = new WalletDaoImpl(MySqlUtility.getConnectionToMySQL());
 
 	public Wallet registerWallet(Wallet newWallet) throws WalletException, SQLException {
 
@@ -38,10 +39,12 @@ public class WalletServiceImpl implements WalletService {
 
 	public Double addFundsToWallet(Integer walletId, Double amount) throws WalletException, SQLException {
 		// TODO Auto-generated method stub
+		Wallet FundAddedWallet = this.walletRepository.getWalletById(walletId);
 		if (amount > 0) {
-			Double totalAmount = this.walletRepository.getWalletById(walletId).getBalance() + amount;
-
-			WallettobeChecked = this.walletRepository.updateWallet(walletId, totalAmount);
+			Double updatedBalance=FundAddedWallet.getBalance()+amount;
+			FundAddedWallet.setBalance(updatedBalance);
+              
+			WallettobeChecked = this.walletRepository.updateWallet(FundAddedWallet);
 
 			return WallettobeChecked.getBalance();
 		} else {
@@ -68,9 +71,13 @@ public class WalletServiceImpl implements WalletService {
 				Double fromBalance = fromWallet.getBalance();
 				Double toBalance = toWallet.getBalance();
 				if (fromBalance > amount) {
-
-					this.walletRepository.updateWallet(fromWallet.getId(), fromBalance - amount);
-					this.walletRepository.updateWallet(toWallet.getId(), toBalance + amount);
+                      fromBalance-=amount;
+                      toBalance+=amount;
+                      fromWallet.setBalance(fromBalance);
+                      toWallet.setBalance(toBalance);
+                      
+					this.walletRepository.updateWallet(fromWallet);
+					this.walletRepository.updateWallet(toWallet);
 					return true;
 
 				} else {

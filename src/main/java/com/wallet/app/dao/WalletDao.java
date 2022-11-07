@@ -11,7 +11,7 @@ public interface WalletDao {
 
 	Wallet getWalletById(Integer walletId) throws WalletException, SQLException;
 
-	Wallet updateWallet(Integer id, Double amount) throws WalletException, SQLException;
+	Wallet updateWallet(Wallet updateWallet) throws WalletException, SQLException;
 
 	Wallet deleteWalletById(Integer walletID) throws WalletException, SQLException;
 
