@@ -18,5 +18,5 @@ public interface WalletService {
 	Boolean fundTransfer(Integer fromId, Integer toId, Double amount)throws WalletException,SQLException,SQLException;
 	
 	Wallet unRegisterWallet(Integer walletId,String password)throws WalletException,SQLException;
-	//boolean Validate(Integer walletId)throws WalletException,SQLException;
+	boolean Validate(Integer walletId)throws WalletException,SQLException;
 }
