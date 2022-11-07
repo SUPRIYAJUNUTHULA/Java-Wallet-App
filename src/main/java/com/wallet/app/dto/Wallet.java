@@ -50,9 +50,9 @@ public class Wallet {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "Wallet [id=" + id + ", name=" + name + ", balance=" + balance + ", password=" + password + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Wallet [id=" + id + ", name=" + name + ", balance=" + balance + ", password=" + password + "]";
+//	}
 
 }
